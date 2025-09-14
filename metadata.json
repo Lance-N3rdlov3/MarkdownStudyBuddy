@@ -1,0 +1,5 @@
+{
+  "name": "Deep Research Study Guide Generator",
+  "description": "An application that takes a user-provided topic, URL, or idea and generates a comprehensive study guide in Obsidian-flavored Markdown, complete with front matter, table of contents, project-based learning paths, and citations from deep research.",
+  "requestFramePermissions": []
+}
