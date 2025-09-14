@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface InputFormProps {
   onGenerate: (topic: string) => void;
   isLoading: boolean;
+  userInput: string;
+  onUserInput: (value: string) => void;
 }
 
-const InputForm: React.FC<InputFormProps> = ({ onGenerate, isLoading }) => {
-  const [userInput, setUserInput] = useState('');
+const InputForm: React.FC<InputFormProps> = ({ onGenerate, isLoading, userInput, onUserInput }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -25,7 +26,7 @@ const InputForm: React.FC<InputFormProps> = ({ onGenerate, isLoading }) => {
           className="w-full p-3 bg-[#11111B] border border-[#45475A] rounded-lg focus:ring-2 focus:ring-[#CBA6F7] focus:border-[#CBA6F7] transition duration-200 text-[#CDD6F4] placeholder-[#585B70]"
           placeholder="e.g., 'The fundamentals of quantum computing', 'https://react.dev', or a YouTube link..."
           value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
+          onChange={(e) => onUserInput(e.target.value)}
           disabled={isLoading}
         />
         <div className="mt-4 flex justify-end">

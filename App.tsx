@@ -23,6 +23,14 @@ interface Conversation {
   date: string;
 }
 
+const examplePrompts = [
+  'The principles of Stoic philosophy',
+  'How does CRISPR gene editing work?',
+  'https://en.wikipedia.org/wiki/Machine_learning',
+  'https://www.youtube.com/watch?v=zSCEr8fFhSc'
+];
+
+
 const App: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
@@ -30,6 +38,8 @@ const App: React.FC = () => {
   const [error, setError] = useState<string>('');
   const [isSidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const [copyButtonText, setCopyButtonText] = useState('Copy Markdown');
+  const [userInput, setUserInput] = useState('');
+
 
   useEffect(() => {
     try {
@@ -73,6 +83,7 @@ const App: React.FC = () => {
       const updatedConversations = [newConversation, ...conversations];
       setConversations(updatedConversations);
       setCurrentConversationId(newConversation.id);
+      setUserInput(''); // Clear input for next time
     } catch (err) {
       console.error(err);
       setError('Failed to generate study guide. Please check your API key and try again.');
@@ -206,7 +217,24 @@ const App: React.FC = () => {
                     <InputForm
                         onGenerate={handleGenerate}
                         isLoading={isLoading}
+                        userInput={userInput}
+                        onUserInput={setUserInput}
                     />
+                    <div className="mt-8 text-center">
+                        <p className="text-sm text-[#A6ADC8] mb-3">Or try an example:</p>
+                        <div className="flex flex-wrap justify-center gap-3">
+                            {examplePrompts.map((prompt, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setUserInput(prompt)}
+                                    className="px-4 py-2 bg-[#313244] text-xs text-[#A6ADC8] rounded-lg hover:bg-[#45475A] hover:text-[#CDD6F4] transition-colors disabled:opacity-50"
+                                    disabled={isLoading}
+                                >
+                                    {prompt}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                      {error && (
                       <div className="mt-8 bg-[#F38BA8]/20 border border-[#F38BA8]/50 text-[#F38BA8] px-4 py-3 rounded-lg text-center">
                         <p><strong>Error:</strong> {error}</p>
